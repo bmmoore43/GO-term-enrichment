@@ -149,7 +149,7 @@ NOTE: With pathway, GO, or cluster file, need to get rid of certain characters â
         
           python calc_percent_cluster_overlap.py -bin ALL_binmatrix.txt -mr Brachy_expressionmat-norm_2017nph_mod.txt_nodup_avg_MR-SP_025.modules.txt 
           
-## Get feature log-ratio
+### Get feature log-ratio
 
 1. Given an enrichment file, get percentage of GO/pathway/etc. for a given class (like Sm genes or PM genes) and the log ratio
 
