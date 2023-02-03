@@ -14,7 +14,7 @@ Files downloaded from PMN (Plant Metabolic Network) or GO (gene ontology) need t
         
         example:
         
-        python ~/Desktop/post_doc/scripts/2_coexpress_pthwy/parse_plantcyc_file_getpath-gene.py All_instances_of_Pathways_in_Zea_mays_mays.txt 3 0 5
+        python parse_plantcyc_file_getpath-gene.py All_instances_of_Pathways_in_Zea_mays_mays.txt 3 0 5
 
 OPTIONAL: If needed, convert gene IDs from pathway file to IDs from your expression data
 NEEDED: a BLAST recipricol best match file
@@ -76,7 +76,7 @@ NOTE: With pathway, GO, or cluster file, need to get rid of certain characters â
         qvalue.R script must be in same folder as the Test_Fisher.py script
         NO "" in your tableforEnrichment file
   
-       python ~/Github/GO-term-enrichment/Test_Fisher.py tableforEnrichment_clusterfilename.txt 1
+       python Test_Fisher.py tableforEnrichment_clusterfilename.txt 1
        
   Output: tableforEnrichment_clusterfilename.txt.pqvalue
        
@@ -84,12 +84,12 @@ NOTE: With pathway, GO, or cluster file, need to get rid of certain characters â
  
  3. Get only the significant under (-) or over (+) represented clusters
  
-        python ~/Github/GO-term-enrichment/parse_enrichment_get_sig.py <.pqvalue file>
+        python parse_enrichment_get_sig.py <.pqvalue file>
         
 
  4. Merge GO term description into results file 
  
-        python ~/Github/GO-term-enrichment/merge_description.py -key [GO term key] -table [output from step 3] 
+        python merge_description.py -key [GO term key] -table [output from step 3] 
  
  5. Get only significant over (+) represented clusters for specific pathway(s)
         options:
@@ -97,7 +97,7 @@ NOTE: With pathway, GO, or cluster file, need to get rid of certain characters â
         -split <delimiter between cluster and pathway, usually "|">
         -path <list of pathways>
         
-        parse_enrich_get_sig_clust_for_path.py -dir ./ -split "|" -path pathA,pathB,pathC
+        python parse_enrich_get_sig_clust_for_path.py -dir ./ -split "|" -path pathA,pathB,pathC
  
  6. Obtain a binary matrix of significant clusters where genes are the row names and columns are the cluster. 1 represents the gene is present in the cluster, 0 represents the gene is absent in the cluster.
     
@@ -127,4 +127,37 @@ NOTE: With pathway, GO, or cluster file, need to get rid of certain characters â
         
         python get_binmatrix_for_genes_in_sigclust.py -cl ALL -dir cluster_dir/ -path All_instances_of_Pathways_in_Zea_mays_mays.txt.parsed.txt_newID.txt 
  
-## Variations
+## Other functions
+
+### Get percent overlap
+
+1. Calculate percent overlap of your co-expression clusters/modules.
+
+        INPUT:
+        
+        -bin binary matrix with clusters you are interested in (from get_binmatrix_for_genes_in_sigclust.py)
+        
+        -mr mr output with all clusters (file is .modules.txt from MR scripts, where columns are: cluster_name | cohesive_score | genes_in_module)
+        
+        OUTPUT:
+        
+        dataframe of your cluster overlap percent (_clusteroverlap.txt)
+        
+        percentiles of all cluster overlap (_allcluster_percentiles.txt) - you can use this file to calculate significance of your cluster overlap. Any percentage above the cluster percentile cutoff is significant for that percentile.
+        
+        Example:
+        
+          python calc_percent_cluster_overlap.py -bin ALL_binmatrix.txt -mr Brachy_expressionmat-norm_2017nph_mod.txt_nodup_avg_MR-SP_025.modules.txt 
+          
+## Get feature log-ratio
+
+1. Given an enrichment file, get percentage of GO/pathway/etc. for a given class (like Sm genes or PM genes) and the log ratio
+
+        INPUT:
+        
+        enrichment table (tableforEnrichment.pqvalue) with class in second column
+        
+        OUTPUT:
+        
+        "_percent_logratio.txt" file
+       
