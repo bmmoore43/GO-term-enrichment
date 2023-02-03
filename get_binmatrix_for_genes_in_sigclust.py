@@ -93,7 +93,8 @@ def get_path_dict(inp, D):
 	header_len2= header_len-2
 	for line in inp:
 		L= line.strip().split('\t')
-		gene= L[0].split('.')[0].lower()
+		#gene= L[0].split('.')[0].lower()
+		gene=L[0]#.upper()
 		gene= clear_quotes(gene)
 		enzyme= [L[1]]
 		if len(L)==header_len:
@@ -131,7 +132,8 @@ if sig_clust == "ALL":
 			for line in geneclust_file:
 				print(line)
 				L= line.strip().split('\t')
-				gene= L[0].split('.')[0].lower()
+				#gene= L[1].split('.')[0].lower()
+				gene=L[1]#.upper()
 				gene= clear_quotes(gene)
 				if clust not in geneclust_dict.keys():
 					geneclust_dict[clust]=[gene]
@@ -140,7 +142,8 @@ if sig_clust == "ALL":
 		else:
 			for line in geneclust_file:
 				L= line.strip().split('\t')
-				gene= L[0].split('.')[0].lower()
+				#gene= L[0].split('.')[0].lower()
+				gene=L[0]#.upper()
 				gene= clear_quotes(gene)
 				clust= str(L[1])
 				if clust not in geneclust_dict.keys():
@@ -196,7 +199,8 @@ else:
 			header= geneclust_file.readline()
 			for line in geneclust_file:
 				L= line.strip().split('\t')
-				gene= L[0].split('.')[0].lower()
+				gene=L[0]#.upper()
+				#gene= L[0].split('.')[0].lower()
 				gene= clear_quotes(gene)
 				clust= str(L[1])
 				if clust not in geneclust_dict.keys():
